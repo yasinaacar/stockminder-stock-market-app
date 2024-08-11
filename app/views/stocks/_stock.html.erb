@@ -1,12 +1,10 @@
-<div id="<%= dom_id stock %>">
-  <p>
-    <strong>Ticker:</strong>
-    <%= stock.ticker %>
-  </p>
-
-  <p>
-    <strong>User:</strong>
-    <%= stock.user_id %>
-  </p>
-
-</div>
+  <td><%= stock.id%></td>
+  <td><%= stock.ticker%></td>
+  <td>name area</td>
+  <td>
+    <div class="d-flex justify-content-center">
+      <% @stock = stock%>
+      <%= link_to "Düzenle", edit_stock_path(@stock), class: "btn btn-sm btn-primary mx-2" %>
+      <%= button_to "Sil", stock, method: :delete, class: "btn btn-sm btn-danger mx-2" %>
+    </div>
+  </td>

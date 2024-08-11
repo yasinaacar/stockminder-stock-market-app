@@ -6,6 +6,7 @@ class StocksController < ApplicationController
   # GET /stocks or /stocks.json
   def index
     @stocks = Stock.all
+    @stocks_size_for_person = Stock.where(user_id: current_user)
   end
 
   # GET /stocks/1 or /stocks/1.json

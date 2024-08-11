@@ -1,10 +1,20 @@
-<h1>Editing stock</h1>
+<h1 class="border-bottom pb-3 my-3">Hisse Düzenle</h1>
 
-<%= render "form", stock: @stock %>
+<div class="row my-3">
+    <div class="col-md-12">
+        <div class="card"> 
+            <div class="card-body">
+                <div class="row p-2">
+                  <%= render "form", stock: @stock %>   
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 <br>
 
-<div>
-  <%= link_to "Show this stock", @stock %> |
-  <%= link_to "Back to stocks", stocks_path %>
+<div class="d-flex justify-content-between">
+  <%= link_to "Tüm hisseler", stocks_path, class:"btn btn-outline-secondary" %>
+  <%= link_to "Hisseyi incele", @stock, class:"btn btn-outline-secondary" %> 
 </div>

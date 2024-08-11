@@ -1,10 +1,22 @@
 <p style="color: green"><%= notice %></p>
 
-<%= render @stock %>
+<table class="table table-stripped table-hover">
+  <thead>
+    <tr>
+      <td>#ID</td>
+      <td>Ticker</td>
+      <td>Name<td>
+      <td style="width: 120px;"></td>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <%= render @stock %>
+    </tr>
+  </tbody>
+</table>
 
-<div>
-  <%= link_to "Edit this stock", edit_stock_path(@stock) %> |
-  <%= link_to "Back to stocks", stocks_path %>
-
-  <%= button_to "Destroy this stock", @stock, method: :delete %>
+<div class="d-flex justify-content-between">
+  <%= link_to "Tüm hisselere göz at", stocks_path, class:"btn btn-outline-secondary" %>
 </div>
+
