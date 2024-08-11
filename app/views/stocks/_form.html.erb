@@ -5,18 +5,44 @@
     </div>
   <% end %>
 <% end %>
+<% stock = @stock %>
 <%= form_with(model: stock) do |form| %>
   <div class="row">
-    <div class="col-md-8">
-      <div class="d-flex">
-        <%= form.label :ticker, class: "form-label" %>
-        <%= form.text_field :ticker, class: "form-control", size: 2 %>
+     <div class="row mb-3">
+      <div class="row">
+        <div class="col-md-2">
+          <%= form.label :ticker, class: "form-label" %>
+        </div>
+        <div class="col-md-10">
+           <%= form.text_field :ticker, class: "form-control" %>
+        </div>
       </div>
     </div>
-    <div class="col-md-4">
-      <div>
+    <div class="row mb-3">
+      <div class="row">
+        <div class="col-md-2">
+          <%= form.label :company_name, class: "form-label" %>
+        </div>
+        <div class="col-md-10">
+          <%= form.text_field :company_name, class: "form-control", required: true, minlength: 2 %>
+        </div>
+      </div>
+    </div>
+    <div class="row mb-3">
+      <div class="row">
+        <div class="col-md-2">
+          <%= form.label :purchase_date, class: "form-label" %>
+        </div>
+        <div class="col-md-10">
+          <%= form.date_field :purchase_date, class: "form-control", value: Date.today %>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col text-end">
         <%= form.hidden_field :user_id, value: current_user.id %>
-        <%= button_to form.submit, class:"btn btn-primary" %>
+        <%= form.submit "Kaydet", class: "btn btn-primary btn-md" %>
       </div>
     </div>
   </div>

@@ -20,6 +20,7 @@ class StocksController < ApplicationController
 
   # GET /stocks/1/edit
   def edit
+    @stock = Stock.find(params[:id])
   end
 
   # POST /stocks or /stocks.json
@@ -74,7 +75,7 @@ class StocksController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def stock_params
-      params.require(:stock).permit(:ticker, :user_id)
+      params.require(:stock).permit(:ticker, :user_id, :company_name, :purchase_date)
     end
 
 

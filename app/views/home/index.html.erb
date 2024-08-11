@@ -2,94 +2,104 @@
     <div class="col-md-12">
         <div class="row">
             <h3 class = "text-center border-bottom pb-3">Hisse Senedi Ara</h3>
-            <%= form_tag root_path, class: "d-flex justify-content-center my-4",:method => "POST" do %>
-                <%= text_field_tag "ticker", nil, placeholder: "Görüntilemek istediğiniz hisse senedi için firma adı giriniz", class: "form-control"%>
+            <%= form_tag root_path, class: "d-flex justify-content-center my-4",:method => "POST", data: { turbo: false } do %>
+                <%= text_field_tag "ticker", nil, placeholder: "Görüntülemek istediğiniz hisse senedi için firma adı giriniz", class: "form-control"%>
                 <button class="btn btn-outline-success ms-2" type="submit">Search</button>
             <%end%>        
         </div>
     </div>
 </div>
+
+<% if flash[:alert].present? %>
+  <div class="alert alert-danger" role="alert">
+    <%= flash[:alert] %>
+  </div>
+<% end %>
+
 <%# RESULTS FROM API %>
-<% if @stock.present? %>
+<% if @stock %>
     <div class="row my-3">
         <div class="col-md-12">
-            <h3 class = "text-center">"Firma adı" için sonuçlar</h3>
+            <h3 class = "text-center">"<%=  @present.name %>" için sonuçlar</h3>
             <table class="table table-striped table-hover">
                 <thead>
                     <tr>
-                        <th>#id<th>
-                        <th>Firma Adı<th>
-                        <th>Ticker<th>
-                        <th>Açılış<th>
-                        <th>Kapanış<th>
-                        <th>Güncel Fiyat<th>
-                        <th>Tarih<th>
+                        <th>Logo</th>
+                        <th>Ticker(Symbol)</th>
+                        <th>Açılış Fiyatı</th>
+                        <th>En Yüksek Fiyat</th>
+                        <th>En Düşük Fiyat</th>
+                        <th>Güncel Fiyat</th>
+                        <th>Önceki Kapanış</th>
+                        <th>Değişim Yüzdesi</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <td>#1<td>
-                        <td>Nil Tuhafiye<td>
-                        <td>NLtd<td>
-                        <td>000<td>
-                        <td>200<td>
-                        <td>250<td>
-                        <td>24/12/2024<td>
+                        <td><img src="<%= @present.logo %>" alt="<%= @present.name %> Logosu" class="img-fluid" style="width: 25px;" /></td>
+                        <td><%= @present.ticker %></td>
+                        <td>$<%= @stock.o %></td>
+                        <td>$<%= @stock.h %></td>
+                        <td>$<%= @stock.l %></td>
+                        <td>$<%= @stock.c %></td>
+                        <td>$<%= @stock.pc %></td>
+                        <td>%<%= @stock.d %></td>
+
                     </tr>
                 </tbody>
             </table>
         </div>
     </div>
 <% elsif @nothing.present? %>
-    <div class="alert alert-danger text-center" role="alert">
-        Hisse senedi adı boş geçilemez
-    </div>    
+    <div class="alert alert-warning" role="alert">
+         <p>Girdiğiniz Ticker'a ait bir hisse bulunamadı</p>
+    </div>
+<% elsif @error.present? %>
+    <div class="alert alert-danger" role="alert">
+         <p><%= @error %></p>
+    </div>
 <% end %>
 
 
 <%# MY STOCKS  %>
-<div class="row my-3">
-    <div class="col-md-12">
-        <div class="card">
-            <div class="card-body">
-                <h5 class="card-title text-center border-bottom pb-3 ">Hisselerim</h5>
-                <div class="row p-2">
-                    <% if @stocks.present? %>
-                        <table class="table table-striped table-hover">
-                            <thead>
-                                <tr>
-                                    <th>#id<th>
-                                    <th>Firma Adı<th>
-                                    <th>Ticker<th>
-                                    <th>Açılış<th>
-                                    <th>Kapanış<th>
-                                    <th>Güncel Fiyat<th>
-                                    <th>Tarih<th>
-                                </tr>
-                            </thead>
-                            <tbody>
+<% if user_signed_in? %>
+    <div class="row my-3">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title text-center border-bottom pb-3 ">Hisselerim</h5>
+                    <div class="row p-2">
+                        <% if @stocks.present? %>
+                            <table class="table table-striped table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>#id<th>
+                                        <th>Ticker<th>
+                                        <th>Firma Adı<th>
+                                        <th>Satın Alım Tarihi<th>
+                                    </tr>
+                                </thead>
+                                <tbody>
                                     <% @stocks.each do |stock|%>
                                         <tr>
-                                            <td>#1<td>
-                                            <td>Nil Tuhafiye<td>
-                                            <td>NLtd<td>
-                                            <td>000<td>
-                                            <td>200<td>
-                                            <td>250<td>
-                                            <td>24/12/2024<td>
+                                            <td>#<%= stock.id %><td>
+                                            <td><%= stock.ticker %><td>
+                                            <td><%= stock.company_name %><td>
+                                            <td><%= stock.purchase_date %><td>
                                         </tr>
                                     <% end %>
-                            </tbody>
-                        </table>
-                    <% else %>
-                        <tr>
-                            <div class="alert alert-warning text-center" role="alert">
-                                Henüz kayıtlı hisseniz bulunmuyor. <%= link_to "Yeni hisse", new_stock_path %> oluştur.
-                            </div>
-                        </tr>
-                    <% end %>
+                                </tbody>
+                            </table>
+                        <% else %>
+                            <tr>
+                                <div class="alert alert-warning text-center" role="alert">
+                                    Henüz kayıtlı hisseniz bulunmuyor. <%= link_to "Yeni hisse", new_stock_path %> oluştur.
+                                </div>
+                            </tr>
+                        <% end %>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
+<% end %>

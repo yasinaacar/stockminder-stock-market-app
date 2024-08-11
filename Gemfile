@@ -15,6 +15,8 @@ gem 'bootstrap', '~> 5.2', '>= 5.2.3'
 gem 'jquery-rails'
 gem 'sassc-rails'
 gem 'alphavantagerb', '~> 1.4'
+gem 'finnhub_ruby', '~> 1.1', '>= 1.1.19'
+
 
 
 
