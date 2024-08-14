@@ -3,8 +3,8 @@
         <div class="row">
             <h3 class = "text-center border-bottom pb-3">Hisse Senedi Ara</h3>
             <%= form_tag root_path, class: "d-flex justify-content-center my-4",:method => "POST", data: { turbo: false } do %>
-                <%= text_field_tag "ticker", nil, placeholder: "Görüntülemek istediğiniz hisse senedi için firma adı giriniz", class: "form-control"%>
-                <button class="btn btn-outline-success ms-2" type="submit">Search</button>
+                <%= text_field_tag "ticker", nil, placeholder: "Görüntülemek istediğiniz hisse senedinin adını (symbol) giriniz", class: "form-control", required: "true" %>
+                <button class="btn btn-outline-success ms-2" type="submit">Ara</button>
             <%end%>        
         </div>
     </div>
@@ -31,7 +31,7 @@
                         <th>En Düşük Fiyat</th>
                         <th>Güncel Fiyat</th>
                         <th>Önceki Kapanış</th>
-                        <th>Değişim Yüzdesi</th>
+                        <th>Değişim</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -43,8 +43,7 @@
                         <td>$<%= @stock.l %></td>
                         <td>$<%= @stock.c %></td>
                         <td>$<%= @stock.pc %></td>
-                        <td>%<%= @stock.d %></td>
-
+                        <td class="<%= @stock.d.to_s.include?('-') ? 'text-danger' : 'text-success' %>"><%= @stock.d %></td>
                     </tr>
                 </tbody>
             </table>
